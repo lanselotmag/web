@@ -18,6 +18,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+	url(r'^$',views.test),
 	url(r'^login/.*$', views.test, name='login'),
 	url(r'^signup/.*$', views.test, name='signup'),
 	url(r'^question/(?P<QID>[0-9]+)/$',views.test, name='question'),
