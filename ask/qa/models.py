@@ -12,22 +12,22 @@ class QuestionManager(models.Manager):
 
 class Question(models.Model):
 	objects=QuestionManager()
-
 	title=models.CharField(default="",max_length=255)
 	text=models.TextField(default="")
-	added_at=models.DateField(auto_now_add=True)
+	added_at=models.DateField(auto_now_add=True,null=True)
 	rating=models.IntegerField(default=0)
-	author=models.OneToOneField(User)
-	likes=models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
-
+	author=models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
+	likes=models.ManyToMany(User, related_name='question_like_user')
 	def __str__(self):
 		return self.title
+	def get_url(self):
+		return "/question/{}/".format(self.id)
 
 class Answer(models.Model):
-	text=models.CharField(max_length=255)
-	added_at=models.DateField(auto_now_add=True)
-	question=models.OneToOneField(Question)
-	author=models.OneToOneField(User)
+	text=models.TextField(default='')
+	added_at=models.DateField(auto_now_add=True,null=True)
+	question=models.ForeignKey(Question,null=True,on_delete=models.SET_NULL)
+	author=models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
 
 	def __str__(self):
-		return self.title
+		return self.text
