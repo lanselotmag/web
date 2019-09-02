@@ -17,7 +17,7 @@ class Question(models.Model):
 	added_at=models.DateField(auto_now_add=True,null=True)
 	rating=models.IntegerField(default=0)
 	author=models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
-	likes=models.ManyToMany(User, related_name='question_like_user')
+	likes=models.ManyToManyField(User, related_name='question_like_user')
 	def __str__(self):
 		return self.title
 	def get_url(self):
@@ -33,3 +33,5 @@ class Answer(models.Model):
 
 	def __str__(self):
 		return self.text
+	class Meta:
+		app_label="qaAnswer"
