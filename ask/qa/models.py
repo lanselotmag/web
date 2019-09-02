@@ -22,6 +22,8 @@ class Question(models.Model):
 		return self.title
 	def get_url(self):
 		return "/question/{}/".format(self.id)
+	class Meta:
+		app_label='qaQuestion'
 
 class Answer(models.Model):
 	text=models.TextField(default='')
