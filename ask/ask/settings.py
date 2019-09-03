@@ -12,17 +12,27 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import pymysql
+import logging.config
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@&kq4gm*ke$s15uq7)ov9&jqt^bjyks@vf4)s$&jtu&g8ux+(*'
-
+#Log off
+#LOGGING_CONFIG= None
+#logging.config.dictConfig({
+#	'version':1,
+#	'disable_existing_loggers'=True,
+#	'loggers': {
+#		'': {
+#			'level':'WARNING',
+#			'handlers':['console','sentry'],
+#		},
+#	},
+#})
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -77,8 +87,8 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join(BASE_DIR, 'stepik'),
-	'USER': 'boxdb',
+        'NAME': 'stepik',
+	'USER': 'box',
 	'PASSWORD': 'password1',
     }
 }
