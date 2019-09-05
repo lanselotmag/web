@@ -1,7 +1,14 @@
 {% block content %}
 {%if quests%}
 <div class="quests">
-	<p>Has quests</p>
+	{% for question in quests%}
+	<div class="question">
+		<h3>Question {{question.id}}: {{questionm.Title}}</h3>
+		<h5>Rating {{question.rating}}. Author: {{question.author.username}}. Added: {{question.added_at}}</h5>
+		<p>{{question.text}}</p>
+	</div>
+	<hr>
+	{% endfor %}
 </div>
 {% else %}
 <p>No quests</p>
