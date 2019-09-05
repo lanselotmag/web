@@ -1,8 +1,8 @@
 {% block content %}
 {% if question %}
 <div class="quest">
-	<h1>Question {{quest.id}}: {{ quest.title}}</h1>
-	<h2>{{ quest.rating }}. Author {{ quest.author.username  }}. Added {{quest.added_at}}</h2>
+	<h1>Question {{question.id}}: {{ question.title}}</h1>
+	<h2>{{ question.rating }}. Author {{ question.author.username  }}. Added {{question.added_at}}</h2>
 </div>
 {% endif %}
 {% if answ %}

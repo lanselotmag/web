@@ -7,7 +7,7 @@
 #sudo gunicorn -c ~/web/etc/django.py ask.wsgi:appplication -D
 sudo ln -sf ~/web/etc/nginx.conf /etc/nginx/sites-enabled/default
 sudo service nginx restart
-pip install pymysql
+sudo pip install pymysql
 sudo /etc/init.d/mysql start
 sudo mysql -uroot -e "DROP DATABASE stepik;"
 sudo mysql -uroot -e "CREATE DATABASE stepik;"
