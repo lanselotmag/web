@@ -1,0 +1,22 @@
+{% block content %}
+{%if quests%}
+<div class="quests">
+	<p>Has quests</p>
+</div>
+{% else %}
+<p>No quests</p>
+{% endif %}
+<div class="pagination">
+	<span class="step-links">
+		{% if quests.hasprevious %}
+		<a href="?page={{ quests.pervious_page_number }}&limit={{ limit  }}">>><a/>
+		{% endif %}
+		<span class="current">
+			Page {{ quests.number }} in {{ quests.paginator.num_pages }}
+		</span>
+		{% if quests.has_next %}
+		<a href="?page={{ quests.next_page_number }}&limit={{ limit }}">>></a>
+		{% endif %}
+	</span>
+</div>
+{% endblock %}

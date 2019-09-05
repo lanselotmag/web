@@ -1,0 +1,28 @@
+{% block content %}
+{% if quests %}
+<div class="quests">
+	{% for question in quests %}
+		<div class="question">
+			<h3>Question {{question.id}}: {{question.title}}</h3>
+			<h5>Rate: {{question.rating}}. Added:{{question.added_at}}. Author:{{question.author.username}}</h5>
+			<p>{{question.text}}</p>
+		</div>
+		<hr>
+	{% endfor %}
+</div>
+{% else %}
+<p>No questions!</n>
+{% endif %}
+<div class="pagination">
+	<span class="step-links">
+		{% if quests.has_previous %}
+		{% endif %}
+		<span class="current">
+			Page {{question.number}} of {{quests.paginator.num_pages}}
+		</span>
+		{% if quests.has_next %}
+		<a href="?page={{quests.next_page_number}}&limit{{limit}}">>></a>
+		{% endif %}
+	</span>
+</div>
+{% endblock %}

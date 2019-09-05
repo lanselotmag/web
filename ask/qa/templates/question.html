@@ -1,0 +1,21 @@
+{% block content %}
+{% if question %}
+<div class="quest">
+	<h1>Question {{quest.id}}: {{ quest.title}}</h1>
+	<h2>{{ quest.rating }}. Author {{ quest.author.username  }}. Added {{quest.added_at}}</h2>
+</div>
+{% endif %}
+{% if answ %}
+<div class="answ">
+	{% for answer in answ %}
+	<div class="answer">
+		<h3>Answer {{ answer.id }}: Author {{ answer.author.username}} </h3>
+		<p>{{ answer.text }}</p>
+	</div>
+	<hr>
+	{% endfor%}
+</div>
+{% else %}
+ <p>Still no answers on question</p>
+{% endif %}
+{% endblock %}
