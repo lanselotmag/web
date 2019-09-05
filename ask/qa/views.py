@@ -36,9 +36,17 @@ def main(request, *args, **kwargs):
 		'paginator': paginator,
 		'page':page,
 		})
-@require_GET
+
 def question(request,QID):
-	return HttpResponse('question ID:'+QID+'\r\n')
+	quest = get_object_or_404(Question,id=QID)
+	answ=Answer.object.filter(question=QID).order_by('-id')
+	context={
+		'title':'Question page',
+		'question':quest,
+		'answ':answ,
+	}
+	return render(request,'question.html',context)
+#	return HttpResponse('question ID:'+QID+'\r\n')
 
 def paginate(request, lst):
 	try:

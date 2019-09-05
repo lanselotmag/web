@@ -3,7 +3,7 @@
 <div class="quests">
 	{% for question in quests%}
 	<div class="question">
-		<h3>Question {{question.id}}: {{questionm.Title}}</h3>
+		<h3>Question {{question.id}}: {{question.title}}</h3>
 		<h5>Rating {{question.rating}}. Author: {{question.author.username}}. Added: {{question.added_at}}</h5>
 		<p>{{question.text}}</p>
 	</div>
