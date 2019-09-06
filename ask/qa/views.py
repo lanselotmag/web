@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_GET
 from qa.models import Question,Answer
+from qa.forms import AskForm, AnswerForm
 #test view
 def test(request,*args,**kwargs):
 	return HttpResponse('OK')
@@ -20,7 +21,6 @@ def popular(request, *args, **kwargs):
 		'limit':limit,
 	}
 	return render(request, 'popular.html',context)
-#	return HttpResponse("popular page:"+str(pagen)+"\r\n")
 
 @require_GET
 def main(request, *args, **kwargs):
@@ -30,23 +30,42 @@ def main(request, *args, **kwargs):
 	paginator=Paginator(quests, limit)
 	paginator.baseurl='/?page='
 	contpage=paginator.page(page)
-#	return HttpResponse('new page:'+str(page)+' limit:'+str(limit)+' paoginator:'+str(paginator.count))
 	return render (request, 'index.html',{
 		'quests': contpage.object_list,
 		'paginator': paginator,
 		'page':page,
 		})
+def ask(request):
+	if request.method == 'POST':
+		form = AskForm(request.POST)
+		if form.is_valid():
+			question = form.save()
+			url = question.get_url()
+			return HttpResponseRedirect(url)
+	else:
+		form = AskForm()
+	return render (request, 'ask.html', {
+		'form':form
+	})
 
 def question(request,QID):
 	quest = get_object_or_404(Question,id=QID)
 	answ=Answer.objects.filter(question=QID).order_by('-id')
+	if request.method == 'POST':
+		form = AnswerForm(request.POST)
+		if form.is_valid():
+			answer=form.save()
+			url = quest.get_url()
+			return HttpResponseRedirect(url)
+	else:
+		form=AnswerForm()
 	context={
-		'title':'Question page',
-		'question':quest,
-		'answ':answ,
+			'title':'Question page',
+			'question':quest,
+			'answ':answ,
+			'form':form,
 	}
 	return render(request,'question.html',context)
-#	return HttpResponse('question ID:'+QID+'\r\n')
 
 def paginate(request, lst):
 	try:

@@ -4,18 +4,19 @@
 	<h1>Question {{question.id}}: {{ question.title}}</h1>
 	<h2>{{ question.rating }}. Author {{ question.author.username  }}. Added {{question.added_at}}</h2>
 </div>
-{% endif %}
-{% if answ %}
-<div class="answ">
-	{% for answer in answ %}
-	<div class="answer">
-		<h3>Answer {{ answer.id }}: Author {{ answer.author.username}} </h3>
-		<p>{{ answer.text }}</p>
+	{% if answ %}
+	<div class="answ">
+		{% for answer in answ %}
+		<div class="answer">
+			<h3>Answer {{ answer.id }}: Author {{ answer.author.username}} </h3>
+			<p>{{ answer.text }}</p>
+		</div>
+		<hr>
+		{% endfor%}
 	</div>
-	<hr>
-	{% endfor%}
-</div>
-{% else %}
- <p>Still no answers on question</p>
+	{% else %}
+	 <p>Still no answers on question</p>
+	{% endif %}
 {% endif %}
+{% include "_form.html" %}
 {% endblock %}

@@ -24,8 +24,8 @@ class Question(models.Model):
 	likes=models.ManyToManyField(User, related_name='question_like_user')
 #	def __str__(self):
 #		return self.title
-#	def get_url(self):
-#		return "/question/{}/".format(self.id)
+	def get_url(self):
+		return "/question/{}/".format(self.id)
 #	class Meta:
 #		app_label='qaQuestion'
 #		db_table= 'Questions'
