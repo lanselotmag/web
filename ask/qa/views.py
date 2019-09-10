@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
@@ -97,25 +98,32 @@ def signup(request):
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data['username']
-			password = form.raw_password
-			user = authenticate(username=username,password=password)
+			password = form.cleaned_data['password']
+			mail = 'la@la.la'
+			#user = authenticate(username=username,password=password)
+			user=User.objects.create_user(username,mail,password)
 			if user is not None:
 				login(request,user)
-			return HttpResponseRedirect(reverse('index'))
+			return HttpResponseRedirect('/login/')
 	else:
 		form = SignupForm()
 	return render(request, 'signup.html',{'form':form})
 
 def login(request):
-	error=''
+#	error=''
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
-			username = form.cleaned_data['username']
-			password = form.cleaned_data['password']
+			username = request.POST['username']
+			password = request.POST['password']
+			form = LoginForm(request.POST)
+#			username = form.cleaned_data['username']
+#			password = form.cleaned_data['password']
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				if user.is_active:
 					login(request,user)
-			return HttpResponseRedirect(reverse('index'))
+			return HttpResponseRedirect('/popular/')
+	else:
+		from = LoginForm()
 	return render(request, 'login.html', {'form' : form})

@@ -61,7 +61,7 @@ class LoginForm(forms.Form):
 		return username
 
 	def clean_password(self):
-		password = selft.cleaned_data['password']
+		password = self.cleaned_data['password']
 		if password.strip() == '':
 			raise forms.ValidationError('Fill password field',code='validation_error')
 		return password
@@ -102,7 +102,7 @@ class SignupForm(forms.Form):
 		password = selft.cleaned_data['password']
 		if password.strip() == '':
 			raise forms.ValidationError('Fill password field',code='validation_error')
-		self.raw_passwrd = password
+#		self.raw_passwrd = password
 		return make_password(password)
 
 	def save(self):
