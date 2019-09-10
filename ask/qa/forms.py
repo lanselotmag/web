@@ -3,7 +3,7 @@ from django import forms
 from qa.models import Question, Answer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.hashes import make_password
+from django.contrib.auth.hashers import make_password
 #ask form
 class AskForm(forms.Form):
 	title = forms.CharField(max_length=100)
@@ -49,43 +49,8 @@ class AnswerForm(forms.Form):
 #		answer.author_id = self._user.id
 		answer.save()
 		return answer
-
-def SignupForm(forms.Form):
-	username = forms.CharField(max_length=100)
-	email = forms.EmailField(max_length=100)
-	password = forms.CharField(widget=forms.PasswordInput)
-
-	def clean_username(self):
-		username = self.cleaned_data['username']
-		if username.strip == '':
-			raise forms.ValidationError('Fill username filed',code='validation_error')
-		try:
-			User.objects.get(username=username)
-			raise forms.ValidationError('Already exists!',code='validation_error')
-		except: User.DoesNotExist:
-			pass
-		return username
-
-	def clean_email(self):
-		email = self.cleaned_data['email']
-		if email.strip() == '':
-			raise forms.ValidationError('Fill email field',code='validation_error')
-		return email
-
-	def clean_password(self):
-		password = selft.cleaned_data['password']
-		if password.strip() == '':
-			raise forms.ValidationError('Fill password field',code='validation_error')
-		self.raw_passwrd = password
-		return make_password(password)
-
-	def save(self):
-		user = User(**self.cleaned_data)
-		user.save()
-		return user
-
-
-class LoginForm (forms.Form):
+#login form
+class LoginForm(forms.Form):
 	username = forms.CharField(max_length = 100)
 	password = forms.CharField(widget=forms.PasswordInput)
 
@@ -110,3 +75,37 @@ class LoginForm (forms.Form):
 			raise froms.ValidationError('Incorrect username or password!')
 		if not user.check_password(password):
 			raise forms.ValidationError('Incorrect username or password!')
+#Signup form
+class SignupForm(forms.Form):
+	username = forms.CharField(max_length=100)
+	email = forms.EmailField(max_length=100)
+	password = forms.CharField(widget=forms.PasswordInput)
+
+	def clean_username(self):
+		username = self.cleaned_data['username']
+		if username.strip == '':
+			raise forms.ValidationError('Fill username filed',code='validation_error')
+		try:
+			User.objects.get(username=username)
+			raise forms.ValidationError('Already exists!',code='validation_error')
+		except User.DoesNotExist:
+			pass
+		return username
+
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		if email.strip() == '':
+			raise forms.ValidationError('Fill email field',code='validation_error')
+		return email
+
+	def clean_password(self):
+		password = selft.cleaned_data['password']
+		if password.strip() == '':
+			raise forms.ValidationError('Fill password field',code='validation_error')
+		self.raw_passwrd = password
+		return make_password(password)
+
+	def save(self):
+		user = User(**self.cleaned_data)
+		user.save()
+		return user

@@ -5,11 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_GET
 from django.contrib.auth.models import User
-from django.comtrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from qa.models import Question,Answer
-from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
+from qa.forms import AskForm, AnswerForm, LoginForm, SignupForm
 #test view
 def test(request,*args,**kwargs):
 	return HttpResponse('OK')
@@ -108,7 +108,7 @@ def signup(request):
 
 def login(request):
 	error=''
-	if request.method == 'POST'
+	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data['username']
@@ -118,5 +118,4 @@ def login(request):
 				if user.is_active:
 					login(request,user)
 			return HttpResponseRedirect(reverse('index'))
-		else:
 	return render(request, 'login.html', {'form' : form})
