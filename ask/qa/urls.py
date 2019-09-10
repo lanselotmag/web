@@ -19,8 +19,8 @@ from . import views
 
 urlpatterns = [
 	url(r'^$',views.main),
-	url(r'^login/.*$', views.test, name='login'),
-	url(r'^signup/.*$', views.test, name='signup'),
+	url(r'^login/.*$', views.login, name='login'),
+	url(r'^signup/.*$', views.signup, name='signup'),
 	url(r'^question/(?P<QID>[0-9]+)/$',views.question, name='question'),
 	url(r'^ask/.*$',views.ask,name='ask'),
 	url(r'^popular/.*$',views.popular,name='popular'),
