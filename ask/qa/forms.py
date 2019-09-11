@@ -99,7 +99,7 @@ class SignupForm(forms.Form):
 		return email
 
 	def clean_password(self):
-		password = selft.cleaned_data['password']
+		password = self.cleaned_data['password']
 		if password.strip() == '':
 			raise forms.ValidationError('Fill password field',code='validation_error')
 #		self.raw_passwrd = password

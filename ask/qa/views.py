@@ -99,9 +99,9 @@ def signup(request):
 			user = form.save()
 			username = form.cleaned_data['username']
 			password = form.cleaned_data['password']
-			mail = 'la@la.la'
+			email = form.cleaned_data['email']
 			#user = authenticate(username=username,password=password)
-			user=User.objects.create_user(username,mail,password)
+			user=User.objects.create_user(username,email,password)
 			if user is not None:
 				login(request,user)
 			return HttpResponseRedirect('/login/')
@@ -125,5 +125,5 @@ def login(request):
 					login(request,user)
 			return HttpResponseRedirect('/popular/')
 	else:
-		from = LoginForm()
+		form = LoginForm()
 	return render(request, 'login.html', {'form' : form})
