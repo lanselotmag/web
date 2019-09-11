@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
@@ -98,7 +97,7 @@ def signup(request):
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data['username']
-			password = form.raw_password
+			password = form.raw_passwrd
 			user = authenticate(username=username,password=password)
 			if user is not None:
 				if user.is_active:
@@ -108,14 +107,12 @@ def signup(request):
 		form=SignupForm()
 	return render(request, 'signup.html',{'form':form})
 
-def login(request):
-#	error=''
+def log_in(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data['username']
 			password = form.cleaned_data['password']
-			form = LoginForm(request.POST)
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				if user.is_active:
