@@ -96,17 +96,16 @@ def signup(request):
 	if request.method == 'POST':
 		form = SignupForm(request.POST)
 		if form.is_valid():
-			form.save()
+			user = form.save()
 			username = form.cleaned_data['username']
-			raw_password = form.cleaned_data['password']
-			email = form.cleaned_data['email']
-			user = authenticate(username=username,password=raw_password)
-			#user=User.objects.create_user(username,email,password)
+			password = form.raw_password
+			user = authenticate(username=username,password=password)
 			if user is not None:
-				login(request,user)
-			response=HttpResponseRedirect('/login/')
-			response.set_cookie('sessid','qwesrdtfffdgw',domain='/',httponly=True,expires=datetime.now()+timedelta(days=5))
-			return response
+				if user.is_active:
+					login(request,user)
+			return HttpResponseRedirect(reverse('index'))
+	else:
+		form=SignupForm()
 	return render(request, 'signup.html',{'form':form})
 
 def login(request):
@@ -114,16 +113,14 @@ def login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
-			username = request.POST['username']
-			password = request.POST['password']
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password']
 			form = LoginForm(request.POST)
-#			username = form.cleaned_data['username']
-#			password = form.cleaned_data['password']
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				if user.is_active:
 					login(request,user)
-			return HttpResponseRedirect('/popular/')
+			return HttpResponseRedirect(reverse('index'))
 	else:
 		form = LoginForm()
 	return render(request, 'login.html', {'form' : form})
