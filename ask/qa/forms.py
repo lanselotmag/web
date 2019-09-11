@@ -4,6 +4,7 @@ from qa.models import Question, Answer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.forms import UserCreationForm
 #ask form
 class AskForm(forms.Form):
 	title = forms.CharField(max_length=100)
@@ -76,10 +77,14 @@ class LoginForm(forms.Form):
 		if not user.check_password(password):
 			raise forms.ValidationError('Incorrect username or password!')
 #Signup form
-class SignupForm(forms.Form):
-	username = forms.CharField(max_length=100)
-	email = forms.EmailField(max_length=100)
-	password = forms.CharField(widget=forms.PasswordInput)
+#class SignupForm(forms.Form):
+class SignupForm(UserCreationForm):
+#	username = forms.CharField(max_length=100,required=True)
+	email = forms.EmailField(max_length=100,required=False)
+#	password = forms.CharField(widget=forms.PasswordInput)
+	class Meta:
+		model = User
+		fields = ('username','email','password')
 
 	def clean_username(self):
 		username = self.cleaned_data['username']

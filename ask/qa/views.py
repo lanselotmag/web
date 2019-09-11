@@ -96,17 +96,17 @@ def signup(request):
 	if request.method == 'POST':
 		form = SignupForm(request.POST)
 		if form.is_valid():
-			user = form.save()
+			form.save()
 			username = form.cleaned_data['username']
-			password = form.cleaned_data['password']
+			raw_password = form.cleaned_data['password']
 			email = form.cleaned_data['email']
-			#user = authenticate(username=username,password=password)
-			user=User.objects.create_user(username,email,password)
+			user = authenticate(username=username,password=raw_password)
+			#user=User.objects.create_user(username,email,password)
 			if user is not None:
 				login(request,user)
-			return HttpResponseRedirect('/login/')
-	else:
-		form = SignupForm()
+			response=HttpResponseRedirect('/login/')
+			response.set_cookie('sessid','qwesrdtfffdgw',domain='/',httponly=True,expires=datetime.now()+timedelta(days=5))
+			return response
 	return render(request, 'signup.html',{'form':form})
 
 def login(request):
